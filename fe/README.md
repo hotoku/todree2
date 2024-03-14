@@ -1,3 +1,14 @@
+# todree frontend
+
+## 開発用コマンド
+
+### スキーマ定義
+
+1. backend サーバーを起動して、http://localhost:8000/openapi.json にアクセス。openapi.json を package.json と同じフォルダに保存する。
+2. `npm run schema`を実行 →`src/schema.d.ts`ファイルが更新される。
+
+↓ は、vite が自動で出力したもの。
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -17,12 +28,12 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
