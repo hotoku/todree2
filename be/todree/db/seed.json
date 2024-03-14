@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "content": "This is a test comment",
+    "parent_id": null
+  },
+  {
+    "id": 2,
+    "content": "This is another test comment",
+    "parent_id": 1
+  }
+]

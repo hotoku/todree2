@@ -1,10 +1,11 @@
 import click
-import uvicorn    
+import uvicorn
 from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
+
+@app.get("/hello")
 def hello():
     return {"Hello": "World"}
 
