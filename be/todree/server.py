@@ -28,6 +28,12 @@ def create_item(item: ItemCreate, session: Session = Depends(get_db)):
     return crud.create_item(session, item)
 
 
+@app.get("/items", response_model=list[Item])
+def get_items(session: Session = Depends(get_db)):
+    """Return all items that have no parent."""
+    return crud.read_items(session)
+
+
 @click.command()
 def server():
     uvicorn.run("todree.server:app", host="0.0.0.0", port=8000, reload=True)

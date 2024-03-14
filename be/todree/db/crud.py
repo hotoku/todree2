@@ -13,3 +13,7 @@ def create_item(db: Session, item: schemas.ItemCreate) -> models.Item:
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+def read_items(db: Session) -> list[models.Item]:
+    return db.query(models.Item).filter(models.Item.parent_id.is_(None)).all()
