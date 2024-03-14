@@ -10,12 +10,12 @@ from .db import get_db, crud
 app = FastAPI()
 
 
-@app.get("/hello")
+@app.get("/api/hello")
 def hello():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}", response_model=Item)
+@app.get("/api/items/{item_id}", response_model=Item)
 def get_item(item_id: int, session: Session = Depends(get_db)):
     ret = crud.read_item(session, item_id)
     if ret is None:
@@ -23,12 +23,12 @@ def get_item(item_id: int, session: Session = Depends(get_db)):
     return ret
 
 
-@app.post("/items", response_model=Item)
+@app.post("/api/items", response_model=Item)
 def create_item(item: ItemCreate, session: Session = Depends(get_db)):
     return crud.create_item(session, item)
 
 
-@app.get("/items", response_model=list[Item])
+@app.get("/api/items", response_model=list[Item])
 def get_items(session: Session = Depends(get_db)):
     """Return all items that have no parent."""
     return crud.read_items(session)
