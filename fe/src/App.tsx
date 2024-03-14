@@ -24,7 +24,15 @@ function App() {
       });
   }, []);
 
-  return <></>;
+  return (
+    <>
+      <ul>
+        {Object.values(items).map((item) => (
+          <li key={item.id}>{item.content}</li>
+        ))}
+      </ul>
+    </>
+  );
 }
 
 export default App;

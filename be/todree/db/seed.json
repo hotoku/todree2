@@ -8,5 +8,25 @@
     "id": 2,
     "content": "This is another test comment",
     "parent_id": 1
+  },
+  {
+    "id": 3,
+    "content": "This is a reply to the first comment",
+    "parent_id": null
+  },
+  {
+    "id": 4,
+    "content": "This is a reply to the second comment",
+    "parent_id": null
+  },
+  {
+    "id": 5,
+    "content": "This is a reply to the third comment",
+    "parent_id": null
+  },
+  {
+    "id": 6,
+    "content": "This is a reply to the fourth comment",
+    "parent_id": null
   }
 ]
