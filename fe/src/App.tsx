@@ -11,7 +11,6 @@ type Items = { [key: number]: Item };
 function App() {
   const [items, setItems] = useState<Items>({});
   useEffect(() => {
-    console.log("requesting");
     fetch("/api/items")
       .then((res) => res.json())
       .then((data: SuccessResponse) => {
