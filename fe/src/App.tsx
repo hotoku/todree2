@@ -1,35 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
 import "./App.css";
-import { components, paths } from "./schema";
-
-type Item = components["schemas"]["Item"];
-type SuccessResponse =
-  paths["/items"]["get"]["responses"]["200"]["content"]["application/json"];
-
-type Items = { [key: number]: Item };
+import { getItems } from "./api";
+import { itemsAtom } from "./atoms";
+import Items from "./components/Items";
 
 function App() {
-  const [items, setItems] = useState<Items>({});
+  const [items, setItems] = useAtom(itemsAtom);
   useEffect(() => {
-    fetch("/api/items")
-      .then((res) => res.json())
-      .then((data: SuccessResponse) => {
-        const ret: Items = {};
-        for (const item of data) {
-          ret[item.id] = item;
-        }
-        console.log(ret);
-        setItems(ret);
-      });
+    getItems().then((data) => {
+      setItems(data);
+    });
   }, []);
 
   return (
     <>
-      <ul>
-        {Object.values(items).map((item) => (
-          <li key={item.id}>{item.content}</li>
-        ))}
-      </ul>
+      <Items items={Object.values(items)}></Items>
     </>
   );
 }
