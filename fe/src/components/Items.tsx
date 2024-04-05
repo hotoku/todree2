@@ -2,27 +2,28 @@ import styled from "styled-components";
 
 import { Item } from "../types";
 import { selectedItemAtom } from "../atoms";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
-type ItemLineProps = { item: Item };
+type ItemLineProps = { item: Item; pos: number };
 
 const StyledUl = styled.ul`
   list-style-type: none;
 `;
 
-const StyledLi = styled.li<{ bullet: string; color: string }>`
+const StyledLi = styled.li<{ $color: string; $bullet: string }>`
   &::before {
-    content: "${(props) => props.bullet}";
-    color: "${(props) => props.color}";
+    content: "${(props) => props.$bullet}";
+    color: ${(props) => props.$color};
     padding-right: 5px;
   }
 `;
 
-function ItemLine({ item }: ItemLineProps): JSX.Element {
+function ItemLine({ item, pos }: ItemLineProps): JSX.Element {
+  const selectedItem = useAtomValue(selectedItemAtom);
   const bullet = item.open ? "▼" : "▶";
-  const color = item.selected ? "red" : "black";
+  const color = pos === selectedItem ? "red" : "black";
   return (
-    <StyledLi key={item.id} bullet={bullet} color={color}>
+    <StyledLi $color={color} $bullet={bullet}>
       {item.content}
     </StyledLi>
   );
@@ -31,11 +32,10 @@ function ItemLine({ item }: ItemLineProps): JSX.Element {
 type ItemsProps = { items: Item[] };
 
 function Items({ items }: ItemsProps): JSX.Element {
-  const [selectedItem, setSlectedItem] = useAtom(selectedItemAtom);
   return (
     <StyledUl>
-      {items.map((i) => (
-        <ItemLine item={i} />
+      {items.map((i, idx) => (
+        <ItemLine key={i.id} item={i} pos={idx} />
       ))}
     </StyledUl>
   );

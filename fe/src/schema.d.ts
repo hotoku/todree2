@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
   "/hello": {
     /** Hello */
@@ -71,7 +70,6 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-
   /** Hello */
   hello_hello_get: {
     responses: {

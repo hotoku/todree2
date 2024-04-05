@@ -7,9 +7,12 @@ export async function getItems(): Promise<Items> {
 
   const res = await fetch("/api/items");
   const data: SuccessResponse = await res.json();
-  const ret: Items = {};
+  const ret: Items = [];
   for (const item of data) {
-    ret[item.id] = { ...item, open: false, selected: false };
+    ret.push({
+      ...item,
+      open: false,
+    });
   }
   return ret;
 }
