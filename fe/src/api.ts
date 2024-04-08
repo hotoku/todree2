@@ -17,12 +17,6 @@ export async function getItems(): Promise<Items> {
   return ret;
 }
 
-async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 export async function saveItem(item: Item): Promise<ItemContent> {
   type SuccessResponse =
     paths["/api/items/{item_id}"]["put"]["responses"]["200"]["content"]["application/json"];
@@ -34,6 +28,5 @@ export async function saveItem(item: Item): Promise<ItemContent> {
     body: JSON.stringify(item),
   });
   const data: SuccessResponse = await res.json();
-  await sleep(1000);
   return data;
 }

@@ -58,18 +58,24 @@ function App() {
           });
           break;
         case "Enter":
-          if (editing && selectedItem) {
+          if (selectedItem !== null) {
             const item = items[selectedItem];
-            if (item.state.status === "fulfilled") {
-              const prm = saveItem(item.getOrThrow()).then((data) => {
-                return { ...data, open: item.getOrThrow().open };
-              });
-              const ary1 = items.slice(0, selectedItem);
-              const ary2 = items.slice(selectedItem + 1);
-              setItems([...ary1, new Loadable(prm), ...ary2]);
+            if (editing) {
+              if (item.state.status === "fulfilled") {
+                const prm = saveItem(item.getOrThrow()).then((data) => {
+                  return { ...data, open: item.getOrThrow().open };
+                });
+                const ary1 = items.slice(0, selectedItem);
+                const ary2 = items.slice(selectedItem + 1);
+                setItems([...ary1, new Loadable(prm), ...ary2]);
+              }
+              setEditing(false);
+            } else {
+              if (item.state.status === "fulfilled") {
+                setEditing(true);
+              }
             }
           }
-          setEditing((b) => !b);
           break;
         case "Escape":
           setEditing(false);
