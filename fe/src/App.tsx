@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import "./App.css";
-import { getItems } from "./api";
-import { itemsAtom, selectedItemAtom } from "./atoms";
+import { getItems, saveItem } from "./api";
+import { editingAtom, itemsAtom, selectedItemAtom } from "./atoms";
 import Items from "./components/Items";
 
 function App() {
   const [items, setItems] = useAtom(itemsAtom);
-  const setSelectedItem = useSetAtom(selectedItemAtom);
+  const [selectedItem, setSelectedItem] = useAtom(selectedItemAtom);
+  const [editing, setEditing] = useAtom(editingAtom);
+
   useEffect(() => {
     getItems().then((data) => {
       setItems(data);
@@ -16,8 +18,12 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      console.log("key", e.key);
       switch (e.key) {
         case "k":
+          if (editing) {
+            return;
+          }
           setSelectedItem((prev) => {
             let ret: number = 0;
             if (items.length === 0) {
@@ -33,6 +39,9 @@ function App() {
           });
           break;
         case "j":
+          if (editing) {
+            return;
+          }
           setSelectedItem((prev) => {
             let ret: number = 0;
             if (items.length === 0) {
@@ -47,6 +56,18 @@ function App() {
             return ret;
           });
           break;
+        case "Enter":
+          if (editing && selectedItem) {
+            console.log(items[selectedItem].content);
+            saveItem(items[selectedItem]).then(() => {
+              console.log("saved");
+            });
+          }
+          setEditing((b) => !b);
+          break;
+        case "Escape":
+          setEditing(false);
+          break;
         default:
           break;
       }
@@ -56,7 +77,7 @@ function App() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [items.length, setSelectedItem]);
+  }, [editing, items, items.length, selectedItem, setEditing, setSelectedItem]);
 
   return (
     <div>

@@ -1,11 +1,10 @@
 import click
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
+from .db import crud, get_db
 from .schemas import Item, ItemCreate
-from .db import get_db, crud
-
 
 app = FastAPI()
 
@@ -32,6 +31,14 @@ def create_item(item: ItemCreate, session: Session = Depends(get_db)):
 def get_items(session: Session = Depends(get_db)):
     """Return all items that have no parent."""
     return crud.read_items(session)
+
+
+@app.put("/api/items/{item_id}", response_model=Item)
+def update_item(item_id: int, item: ItemCreate, session: Session = Depends(get_db)):
+    ret = crud.update_item(session, item_id, item)
+    if ret is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return ret
 
 
 @click.command()

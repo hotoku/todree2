@@ -1,5 +1,5 @@
 import { paths } from "./schema";
-import { Items } from "./types";
+import { Item, Items } from "./types";
 
 export async function getItems(): Promise<Items> {
   type SuccessResponse =
@@ -15,4 +15,14 @@ export async function getItems(): Promise<Items> {
     });
   }
   return ret;
+}
+
+export async function saveItem(item: Item): Promise<void> {
+  await fetch(`/api/items/${item.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  });
 }
