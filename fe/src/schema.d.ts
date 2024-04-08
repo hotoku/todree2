@@ -3,23 +3,26 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
-  "/hello": {
+  "/api/hello": {
     /** Hello */
-    get: operations["hello_hello_get"];
+    get: operations["hello_api_hello_get"];
   };
-  "/items/{item_id}": {
+  "/api/items/{item_id}": {
     /** Get Item */
-    get: operations["get_item_items__item_id__get"];
+    get: operations["get_item_api_items__item_id__get"];
+    /** Update Item */
+    put: operations["update_item_api_items__item_id__put"];
   };
-  "/items": {
+  "/api/items": {
     /**
      * Get Items
      * @description Return all items that have no parent.
      */
-    get: operations["get_items_items_get"];
+    get: operations["get_items_api_items_get"];
     /** Create Item */
-    post: operations["create_item_items_post"];
+    post: operations["create_item_api_items_post"];
   };
 }
 
@@ -70,8 +73,9 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
+
   /** Hello */
-  hello_hello_get: {
+  hello_api_hello_get: {
     responses: {
       /** @description Successful Response */
       200: {
@@ -82,10 +86,37 @@ export interface operations {
     };
   };
   /** Get Item */
-  get_item_items__item_id__get: {
+  get_item_api_items__item_id__get: {
     parameters: {
       path: {
         item_id: number;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Item"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /** Update Item */
+  update_item_api_items__item_id__put: {
+    parameters: {
+      path: {
+        item_id: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ItemCreate"];
       };
     };
     responses: {
@@ -107,7 +138,7 @@ export interface operations {
    * Get Items
    * @description Return all items that have no parent.
    */
-  get_items_items_get: {
+  get_items_api_items_get: {
     responses: {
       /** @description Successful Response */
       200: {
@@ -118,7 +149,7 @@ export interface operations {
     };
   };
   /** Create Item */
-  create_item_items_post: {
+  create_item_api_items_post: {
     requestBody: {
       content: {
         "application/json": components["schemas"]["ItemCreate"];
