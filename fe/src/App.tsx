@@ -4,6 +4,7 @@ import "./App.css";
 import { getItems, saveItem } from "./api";
 import { editingAtom, itemsAtom, selectedItemAtom } from "./atoms";
 import Items from "./components/Items";
+import Loadable from "./loadable";
 
 function App() {
   const [items, setItems] = useAtom(itemsAtom);
@@ -12,7 +13,7 @@ function App() {
 
   useEffect(() => {
     getItems().then((data) => {
-      setItems(data);
+      setItems(data.map((i) => new Loadable(Promise.resolve(i))));
     });
   }, [setItems]);
 
@@ -58,10 +59,15 @@ function App() {
           break;
         case "Enter":
           if (editing && selectedItem) {
-            console.log(items[selectedItem].content);
-            saveItem(items[selectedItem]).then(() => {
-              console.log("saved");
-            });
+            const item = items[selectedItem];
+            if (item.state.status === "fulfilled") {
+              const prm = saveItem(item.getOrThrow()).then((data) => {
+                return { ...data, open: item.getOrThrow().open };
+              });
+              const ary1 = items.slice(0, selectedItem);
+              const ary2 = items.slice(selectedItem + 1);
+              setItems([...ary1, new Loadable(prm), ...ary2]);
+            }
           }
           setEditing((b) => !b);
           break;
@@ -77,11 +83,19 @@ function App() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [editing, items, items.length, selectedItem, setEditing, setSelectedItem]);
+  }, [
+    editing,
+    items,
+    items.length,
+    selectedItem,
+    setEditing,
+    setItems,
+    setSelectedItem,
+  ]);
 
   return (
     <div>
-      <Items items={Object.values(items)}></Items>
+      <Items items={items}></Items>
     </div>
   );
 }
