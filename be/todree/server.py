@@ -1,6 +1,10 @@
+import os
+
 import click
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
 from .db import crud, get_db
@@ -9,9 +13,12 @@ from .schemas import Item, ItemCreate
 app = FastAPI()
 
 
-@app.get("/api/hello")
-def hello():
-    return {"Hello": "World"}
+@app.get("/api/info")
+def info():
+    if os.path.exists("/commithash.txt"):
+        with open("/commithash.txt", "r") as f:
+            commithash = f.read().strip()
+        return {"commithash": commithash}
 
 
 @app.get("/api/items/{item_id}", response_model=Item)
@@ -41,6 +48,21 @@ def update_item(item_id: int, item: ItemCreate, session: Session = Depends(get_d
     return ret
 
 
+app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
+
+
+# それ意外のpathでは、static/index.htmlを返す
+@app.get("/")
+@app.get("/{path:path}")
+def index():
+    return FileResponse("static/index.html")
+
+
+def get_port() -> int:
+    return int(os.getenv("PORT", 8000))
+
+
 @click.command()
 def server():
-    uvicorn.run("todree.server:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("todree.server:app", host="0.0.0.0",
+                port=get_port(), reload=True)

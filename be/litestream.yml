@@ -1,0 +1,6 @@
+dbs:
+  - path: ${TODREE_DB_PATH}
+    replicas:
+      - bucket: ${TODREE_BUCKET}
+        path: litestream
+        type: gcs
