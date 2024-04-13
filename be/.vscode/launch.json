@@ -10,7 +10,7 @@
       "request": "launch",
       "module": "todree",
       "args": ["server"],
-      "cwd": "${workspaceFolder}/be"
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
