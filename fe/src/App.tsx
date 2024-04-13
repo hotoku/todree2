@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import "./App.css";
-import { getItems, saveItem } from "./api";
+import { createItem, getItems, saveItem } from "./api";
 import { editingAtom, itemsAtom, selectedItemAtom } from "./atoms";
 import Items from "./components/Items";
 import Loadable from "./loadable";
@@ -82,6 +82,25 @@ function App() {
           break;
         case "Escape":
           setEditing(false);
+          break;
+        case "a":
+          if (editing) {
+            return;
+          }
+          if (selectedItem === null) {
+            return;
+          }
+          createItem({ content: "" }).then((data) => {
+            const ary1 = items.slice(0, selectedItem + 1);
+            const ary2 = items.slice(selectedItem + 1);
+            setItems([
+              ...ary1,
+              new Loadable(Promise.resolve({ ...data, open: false })),
+              ...ary2,
+            ]);
+            setSelectedItem(selectedItem + 1);
+            setEditing(true);
+          });
           break;
         default:
           break;

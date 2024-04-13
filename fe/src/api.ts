@@ -1,5 +1,5 @@
 import { paths } from "./schema";
-import { Item, ItemContent, Items } from "./types";
+import { Item, ItemContent, ItemCreate, Items } from "./types";
 
 export async function getItems(): Promise<Items> {
   type SuccessResponse =
@@ -22,6 +22,20 @@ export async function saveItem(item: Item): Promise<ItemContent> {
     paths["/api/items/{item_id}"]["put"]["responses"]["200"]["content"]["application/json"];
   const res = await fetch(`/api/items/${item.id}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  });
+  const data: SuccessResponse = await res.json();
+  return data;
+}
+
+export async function createItem(item: ItemCreate): Promise<ItemContent> {
+  type SuccessResponse =
+    paths["/api/items"]["post"]["responses"]["200"]["content"]["application/json"];
+  const res = await fetch(`/api/items`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
