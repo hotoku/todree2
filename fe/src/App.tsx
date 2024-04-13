@@ -58,6 +58,9 @@ function App() {
           });
           break;
         case "Enter":
+          if (e.keyCode === 229) {
+            return;
+          }
           if (selectedItem !== null) {
             const item = items[selectedItem];
             if (editing) {
