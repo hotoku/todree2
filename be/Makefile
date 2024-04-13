@@ -20,7 +20,7 @@ deploy: image
 		--allow-unauthenticated \
 		--update-env-vars=TODREE_BUCKET=$(TODREE_BUCKET),TODREE_DB_PATH=$(TODREE_DB_PATH) \
 		--max-instances=1 \
-		--ingress=all # todo: IAPを設定したら変更する
+		--ingress=internal-and-cloud-load-balancing
 
 
 .PHONY: image
