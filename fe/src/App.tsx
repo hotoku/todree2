@@ -95,17 +95,20 @@ function App() {
           if (editing) {
             return;
           }
-          createItem({ content: "" }).then((data) => {
-            const newItem = new Loadable(
-              Promise.resolve({ ...data, open: false })
-            );
+          (() => {
             const pos = selectedItem === null ? items.length - 1 : selectedItem;
-            const ary1 = items.slice(0, pos + 1);
-            const ary2 = items.slice(pos + 1);
-            setItems([...ary1, newItem, ...ary2]);
-            setSelectedItem(pos + 1);
-            setEditing(true);
-          });
+            createItem({ content: "", position: pos }).then((data) => {
+              const newItem = new Loadable(
+                Promise.resolve({ ...data, open: false })
+              );
+              const ary1 = items.slice(0, pos + 1);
+              const ary2 = items.slice(pos + 1);
+              setItems([...ary1, newItem, ...ary2]);
+              setSelectedItem(pos + 1);
+              setEditing(true);
+            });
+          })();
+
           break;
         case "x":
           if (editing) {

@@ -52,7 +52,7 @@ export interface components {
       /** Parent Id */
       parent_id?: number | null;
       /** Position */
-      position?: number | null;
+      position: number;
       /** Id */
       id: number;
     };
@@ -63,7 +63,7 @@ export interface components {
       /** Parent Id */
       parent_id?: number | null;
       /** Position */
-      position?: number | null;
+      position: number;
     };
     /** ValidationError */
     ValidationError: {
