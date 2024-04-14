@@ -23,7 +23,11 @@ alembic upgrade head
 
 クラウドのファイルに migration を反映するには、litestream で replicate するのが良い。以下の手順を踏む。
 
-まず、サービスを削除しておく。→ GCP コンソールから削除する。
+まず、サービスを削除しておく。
+
+```shell
+make remove-service
+```
 
 以下のコマンドでローカルに DB ファイルをリストアする。（※ローカルのファイルが消えるので注意）
 
@@ -64,13 +68,18 @@ Cloud Run での動作時には、litestream によって GCS 上の sqlite フ�
 ### クラウドからローカルにダウンロードするとき
 
 ```shell
-rm ${TODREE_DB_PATH}*
-litestream restore -config litestream.yml ${TODREE_DB_PATH}
+make download-db
 ```
 
 ### ローカルからクラウドにアップロードするとき
 
-cloud run を停止する。→ コンソールでサービスごと削除する。
+※ migration 以外の理由でクラウドにアップロードするのは、運用上、基本は避けるべき。
+
+cloud run を停止する。
+
+```shell
+make remove-service
+```
 
 以下のコマンドで GCS 上のバックアップを削除する。あるいは rename する。
 

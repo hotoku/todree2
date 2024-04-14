@@ -60,3 +60,8 @@ clean:
 download-db:
 	rm -f $(TODREE_DB_PATH)
 	litestream restore -config litestream.yml ${TODREE_DB_PATH}
+
+.PHONY: remove-service
+remove-service:
+	gcloud run services delete todree --region=$(GCP_REGION)
+	
