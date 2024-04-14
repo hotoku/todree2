@@ -5,6 +5,7 @@ import { createItem, deleteItem, getItems, saveItem } from "./api";
 import { editingAtom, itemsAtom, selectedItemAtom } from "./atoms";
 import Items from "./components/Items";
 import Loadable from "./loadable";
+import { Item } from "./types";
 
 function App() {
   const [items, setItems] = useAtom(itemsAtom);
@@ -14,7 +15,8 @@ function App() {
 
   useEffect(() => {
     getItems().then((data) => {
-      setItems(data.map((i) => new Loadable(Promise.resolve(i))));
+      const data2 = data.sort((a, b) => a.position - b.position);
+      setItems(data2.map((i) => new Loadable(Promise.resolve(i))));
       setLoaded(true);
     });
   }, [setItems]);
@@ -89,24 +91,40 @@ function App() {
           }
           break;
         case "Escape":
-          setEditing(false);
+          if (editing) {
+            setEditing(false);
+          } else {
+            setSelectedItem(null);
+          }
           break;
         case "a":
           if (editing) {
             return;
           }
           (() => {
-            const pos = selectedItem === null ? items.length - 1 : selectedItem;
-            createItem({ content: "", position: pos }).then((data) => {
-              const newItem = new Loadable(
-                Promise.resolve({ ...data, open: false })
-              );
-              const ary1 = items.slice(0, pos + 1);
-              const ary2 = items.slice(pos + 1);
-              setItems([...ary1, newItem, ...ary2]);
-              setSelectedItem(pos + 1);
-              setEditing(true);
-            });
+            let position = 0;
+
+            const adding = new Loadable(
+              createItem({ content: "", position: position }).then((data) => {
+                return { ...data, open: false };
+              })
+            );
+
+            let select = 0;
+            let newItems: Loadable<Item>[] = [];
+            if (selectedItem !== null) {
+              select = selectedItem + 1;
+              const ary1 = items.slice(0, selectedItem + 1);
+              const ary2 = items.slice(selectedItem + 1);
+              newItems = [...ary1, adding, ...ary2];
+            } else {
+              select = items.length === 0 ? 0 : items.length;
+              newItems = [...items, adding];
+            }
+
+            setItems(newItems);
+            setSelectedItem(select);
+            setEditing(true);
           })();
 
           break;

@@ -55,3 +55,8 @@ build:
 .PHONY: clean
 clean:
 	rm -rf static ../fe/dist
+
+.PHONY: download-db
+download-db:
+	rm -f $(TODREE_DB_PATH)
+	litestream restore -config litestream.yml ${TODREE_DB_PATH}

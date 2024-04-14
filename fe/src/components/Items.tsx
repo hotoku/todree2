@@ -47,7 +47,18 @@ function ItemEditor({ item }: Pick<ItemLineProps, "item">): JSX.Element {
 }
 
 function ItemViewer({ item }: Pick<ItemLineProps, "item">): JSX.Element {
-  return <span>{item.getOrThrow().content}</span>;
+  return (
+    <>
+      <span>{item.getOrThrow().content}</span>{" "}
+      {process.env.NODE_ENV === "development" ? (
+        <>
+          <span>
+            {item.getOrThrow().position},{item.getOrThrow().id}
+          </span>
+        </>
+      ) : null}
+    </>
+  );
 }
 
 function ItemLine({ item, pos }: ItemLineProps): JSX.Element {

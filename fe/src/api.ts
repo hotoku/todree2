@@ -42,6 +42,7 @@ export async function createItem(item: ItemCreate): Promise<ItemContent> {
     body: JSON.stringify(item),
   });
   const data: SuccessResponse = await res.json();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return data;
 }
 
