@@ -20,6 +20,7 @@ deploy: image
 		--allow-unauthenticated \
 		--update-env-vars=TODREE_BUCKET=$(TODREE_BUCKET),TODREE_DB_PATH=$(TODREE_DB_PATH) \
 		--max-instances=1 \
+		--min-instances=1 \
 		--ingress=internal-and-cloud-load-balancing
 
 
