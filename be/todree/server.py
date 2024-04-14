@@ -29,6 +29,14 @@ def get_item(item_id: int, session: Session = Depends(get_db)):
     return ret
 
 
+@app.delete("/api/items/{item_id}", response_model=Item)
+def delete_item(item_id: int, session: Session = Depends(get_db)):
+    ret = crud.delete_item(session, item_id)
+    if ret is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return ret
+
+
 @app.post("/api/items", response_model=Item)
 def create_item(item: ItemCreate, session: Session = Depends(get_db)):
     return crud.create_item(session, item)

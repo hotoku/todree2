@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import "./App.css";
-import { createItem, getItems, saveItem } from "./api";
+import { createItem, deleteItem, getItems, saveItem } from "./api";
 import { editingAtom, itemsAtom, selectedItemAtom } from "./atoms";
 import Items from "./components/Items";
 import Loadable from "./loadable";
@@ -10,16 +10,24 @@ function App() {
   const [items, setItems] = useAtom(itemsAtom);
   const [selectedItem, setSelectedItem] = useAtom(selectedItemAtom);
   const [editing, setEditing] = useAtom(editingAtom);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getItems().then((data) => {
       setItems(data.map((i) => new Loadable(Promise.resolve(i))));
+      setLoaded(true);
     });
   }, [setItems]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      console.log("key", e.key);
+      if (process.env.NODE_ENV === "development") {
+        console.log("code", e.code);
+        console.log("key", e.key);
+      }
+      if (!loaded) {
+        return;
+      }
       switch (e.key) {
         case "k":
           if (editing) {
@@ -87,20 +95,46 @@ function App() {
           if (editing) {
             return;
           }
+          createItem({ content: "" }).then((data) => {
+            const newItem = new Loadable(
+              Promise.resolve({ ...data, open: false })
+            );
+            const pos = selectedItem === null ? items.length - 1 : selectedItem;
+            const ary1 = items.slice(0, pos + 1);
+            const ary2 = items.slice(pos + 1);
+            setItems([...ary1, newItem, ...ary2]);
+            setSelectedItem(pos + 1);
+            setEditing(true);
+          });
+          break;
+        case "x":
+          if (editing) {
+            return;
+          }
           if (selectedItem === null) {
             return;
           }
-          createItem({ content: "" }).then((data) => {
-            const ary1 = items.slice(0, selectedItem + 1);
-            const ary2 = items.slice(selectedItem + 1);
-            setItems([
-              ...ary1,
-              new Loadable(Promise.resolve({ ...data, open: false })),
-              ...ary2,
-            ]);
-            setSelectedItem(selectedItem + 1);
-            setEditing(true);
-          });
+          (() => {
+            const item = items[selectedItem];
+            if (item.state.status === "fulfilled") {
+              const id = item.getOrThrow().id;
+              const deleting = new Loadable(
+                deleteItem(id).then(() => {
+                  const ary1 = items.slice(0, selectedItem);
+                  const ary2 = items.slice(selectedItem + 1);
+                  setItems([...ary1, ...ary2]);
+                  return item.getOrThrow();
+                })
+              );
+              const ary1 = items.slice(0, selectedItem);
+              const ary2 = items.slice(selectedItem + 1);
+              setItems([...ary1, deleting, ...ary2]);
+
+              setSelectedItem((prev) =>
+                prev === 0 || prev === null ? null : prev - 1
+              );
+            }
+          })();
           break;
         default:
           break;
@@ -115,6 +149,7 @@ function App() {
     editing,
     items,
     items.length,
+    loaded,
     selectedItem,
     setEditing,
     setItems,
@@ -123,7 +158,13 @@ function App() {
 
   return (
     <div>
-      <p>todree</p>
+      <h1>todree</h1>
+      {process.env.NODE_ENV === "development" ? (
+        <span>
+          selected item <span>{selectedItem}</span> <br></br>
+          item length <span>{items.length}</span>
+        </span>
+      ) : null}
       <Items items={items}></Items>
     </div>
   );

@@ -44,3 +44,9 @@ export async function createItem(item: ItemCreate): Promise<ItemContent> {
   const data: SuccessResponse = await res.json();
   return data;
 }
+
+export async function deleteItem(id: number): Promise<void> {
+  await fetch(`/api/items/${id}`, {
+    method: "DELETE",
+  });
+}

@@ -28,3 +28,12 @@ def update_item(db: Session, item_id: int, item: schemas.ItemCreate) -> models.I
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+def delete_item(db: Session, item_id: int) -> models.Item | None:
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if db_item is None:
+        return None
+    db.delete(db_item)
+    db.commit()
+    return db_item
