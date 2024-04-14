@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class ItemBase(BaseModel):
     content: str
     parent_id: int | None = None
+    position: float | None = None
 
 
 class ItemCreate(ItemBase):
@@ -15,4 +16,3 @@ class Item(ItemBase):
 
     class Config:
         from_attributes = True
-

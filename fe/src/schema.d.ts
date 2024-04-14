@@ -5,15 +5,17 @@
 
 
 export interface paths {
-  "/api/hello": {
-    /** Hello */
-    get: operations["hello_api_hello_get"];
+  "/api/info": {
+    /** Info */
+    get: operations["info_api_info_get"];
   };
   "/api/items/{item_id}": {
     /** Get Item */
     get: operations["get_item_api_items__item_id__get"];
     /** Update Item */
     put: operations["update_item_api_items__item_id__put"];
+    /** Delete Item */
+    delete: operations["delete_item_api_items__item_id__delete"];
   };
   "/api/items": {
     /**
@@ -23,6 +25,14 @@ export interface paths {
     get: operations["get_items_api_items_get"];
     /** Create Item */
     post: operations["create_item_api_items_post"];
+  };
+  "/{path}": {
+    /** Index */
+    get: operations["index__path__get"];
+  };
+  "/": {
+    /** Index */
+    get: operations["index__get"];
   };
 }
 
@@ -41,6 +51,8 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
+      /** Position */
+      position?: number | null;
       /** Id */
       id: number;
     };
@@ -50,6 +62,8 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
+      /** Position */
+      position?: number | null;
     };
     /** ValidationError */
     ValidationError: {
@@ -74,8 +88,8 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** Hello */
-  hello_api_hello_get: {
+  /** Info */
+  info_api_info_get: {
     responses: {
       /** @description Successful Response */
       200: {
@@ -134,6 +148,28 @@ export interface operations {
       };
     };
   };
+  /** Delete Item */
+  delete_item_api_items__item_id__delete: {
+    parameters: {
+      path: {
+        item_id: number;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Item"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   /**
    * Get Items
    * @description Return all items that have no parent.
@@ -166,6 +202,28 @@ export interface operations {
       422: {
         content: {
           "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /** Index */
+  index__path__get: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+    };
+  };
+  /** Index */
+  index__get: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
         };
       };
     };

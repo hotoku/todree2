@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 from .core import engine
 
@@ -14,6 +14,7 @@ class Item(Base):
                 index=True, autoincrement=True)
     content = Column(String, nullable=False)
     parent_id = Column(Integer, ForeignKey("items.id"))
+    position = Column(Float, nullable=True)
 
     parent = relationship("Item", back_populates="children", remote_side=id)
     children = relationship("Item", back_populates="parent")
