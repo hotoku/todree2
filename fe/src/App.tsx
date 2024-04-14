@@ -103,6 +103,24 @@ function App() {
           }
           (() => {
             let position = 0;
+            if (selectedItem === null) {
+              position =
+                items.length === 0
+                  ? 0
+                  : items[items.length - 1].getOrThrow().position + 1;
+            } else {
+              if (items.length === 0) {
+                throw new Error("unexpected: items length is 0");
+              }
+              if (selectedItem === items.length - 1) {
+                position = items[selectedItem].getOrThrow().position + 1;
+              } else {
+                position =
+                  (items[selectedItem].getOrThrow().position +
+                    items[selectedItem + 1].getOrThrow().position) /
+                  2;
+              }
+            }
 
             const adding = new Loadable(
               createItem({ content: "", position: position }).then((data) => {
