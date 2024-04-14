@@ -1,4 +1,5 @@
 import os
+import sqlite3
 
 import click
 import uvicorn
@@ -15,10 +16,27 @@ app = FastAPI()
 
 @app.get("/api/info")
 def info():
+    commithash = "unknown"
     if os.path.exists("/commithash.txt"):
         with open("/commithash.txt", "r") as f:
             commithash = f.read().strip()
-        return {"commithash": commithash}
+    with sqlite3.connect(os.getenv("TODREE_DB_PATH")) as conn:
+        cursor = conn.cursor()
+        cursor.row_factory = sqlite3.Row
+        cursor.execute("""
+SELECT 
+    name
+FROM 
+    sqlite_schema
+WHERE 
+    type ='table' AND 
+    name NOT LIKE 'sqlite_%';""")
+        rows = cursor.fetchall()
+        tables = [row["name"] for row in rows]
+    return {
+        "commithash": commithash,
+        "tables": tables,
+    }
 
 
 @app.get("/api/items/{item_id}", response_model=Item)
