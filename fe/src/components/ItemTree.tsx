@@ -1,8 +1,7 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { treeAtom } from "../atoms";
 
-function ItemTree(): JSX.Element {
-  const treeLoadable = useAtomValue(treeAtom);
-  const tree = treeLoadable.getOrThrow();
-  return <>{tree.root.children.map(node=>node.content))}</>;
+export function ItemTree(): JSX.Element {
+  const tree = useAtomValue(treeAtom).getOrThrow();
+  return <span>{JSON.stringify(tree)}</span>;
 }

@@ -33,13 +33,11 @@ export function createTree(
     (obj) => new ValueNode(obj.id, false, obj.content)
   );
   const find = (id: number) => nodes.filter((node) => node.id === id)[0];
+  const root = new RootNode(true);
   for (let i = 0; i < nodes.length; i++) {
     const child = objs[i];
-    if (child.parentId === null) {
-      continue;
-    }
-    const parent = find(child.parentId);
+    const parent = child.parentId ? find(child.parentId) : root;
     parent.children.push(nodes[i]);
   }
-  return new Tree(new RootNode(true));
+  return new Tree(root);
 }
