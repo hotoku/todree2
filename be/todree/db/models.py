@@ -14,7 +14,7 @@ class Item(Base):
                 index=True, autoincrement=True)
     content = Column(String, nullable=False)
     parent_id = Column(Integer, ForeignKey("items.id"))
-    position = Column(Float, nullable=True)
+    weight = Column(Float, nullable=True)
 
     parent = relationship("Item", back_populates="children", remote_side=id)
     children = relationship("Item", back_populates="parent")
