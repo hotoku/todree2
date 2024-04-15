@@ -56,6 +56,7 @@ build:
 clean:
 	rm -rf static ../fe/dist
 
+## DB操作用のターゲット
 .PHONY: download-db
 download-db:
 	rm -f $(TODREE_DB_PATH)
@@ -64,4 +65,9 @@ download-db:
 .PHONY: remove-service
 remove-service:
 	gcloud run services delete todree --region=$(GCP_REGION)
-	
+
+.PHONY: seed
+seed:
+	rm -f $(TODREE_DB_PATH)
+	alembic upgrade head
+	python -m todree db seed
