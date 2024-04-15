@@ -27,7 +27,7 @@ export class Tree {
 }
 
 export function createTree(
-  objs: { id: number; content: string; parentId: number | null }[]
+  objs: { id: number; content: string; parentId?: number }[]
 ): Tree {
   const nodes: ValueNode[] = objs.map(
     (obj) => new ValueNode(obj.id, false, obj.content)

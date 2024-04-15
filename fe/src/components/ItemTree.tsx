@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { treeAtom } from "../atoms";
-import { ValueNode } from "../tree/tree";
+import { ValueNode } from "../tree";
 
 export function ItemTree(): JSX.Element {
   const tree = useAtomValue(treeAtom).getOrThrow();
