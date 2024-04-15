@@ -56,18 +56,23 @@ build:
 clean:
 	rm -rf static ../fe/dist
 
+.PHONY: remove-service
+remove-service:
+	gcloud run services delete todree --region=$(GCP_REGION)
+
 ## DB操作用のターゲット
 .PHONY: download-db
 download-db:
 	rm -f $(TODREE_DB_PATH)
 	litestream restore -config litestream.yml ${TODREE_DB_PATH}
 
-.PHONY: remove-service
-remove-service:
-	gcloud run services delete todree --region=$(GCP_REGION)
-
 .PHONY: seed
 seed:
 	rm -f $(TODREE_DB_PATH)
 	alembic upgrade head
 	python -m todree db seed
+
+## openAPIの生成
+.PHONY: openapi
+openapi:
+	curl localhost:8000/openapi.json | jq > ../fe/openapi.json
