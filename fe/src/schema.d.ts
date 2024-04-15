@@ -51,8 +51,8 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
-      /** Position */
-      position: number;
+      /** Weight */
+      weight: number;
       /** Id */
       id: number;
     };
@@ -62,8 +62,8 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
-      /** Position */
-      position: number;
+      /** Weight */
+      weight: number;
     };
     /** ValidationError */
     ValidationError: {
