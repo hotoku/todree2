@@ -24,12 +24,12 @@ def info():
         cursor = conn.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute("""
-SELECT 
+SELECT
     name
-FROM 
+FROM
     sqlite_schema
-WHERE 
-    type ='table' AND 
+WHERE
+    type ='table' AND
     name NOT LIKE 'sqlite_%';""")
         rows = cursor.fetchall()
         tables = [row["name"] for row in rows]

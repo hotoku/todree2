@@ -1,7 +1,7 @@
 import { atom } from "jotai";
-import { Item } from "./types";
 import Loadable from "./loadable";
+import { Tree } from "./tree/tree";
 
-export const itemsAtom = atom<Loadable<Item>[]>([]);
-export const selectedItemAtom = atom<number | null>(null);
-export const editingAtom = atom<boolean>(false);
+export const treeAtom = atom<Loadable<Tree>>(
+  new Loadable(Promise.reject(new Error("not loaded")))
+);
