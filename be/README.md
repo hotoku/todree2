@@ -33,7 +33,7 @@ make remove-service
 
 ```shell
 rm ${TODREE_DB_PATH}*
-litestream restore -config litestream.yml ${TODREE_DB_PATH}
+make download-db
 ```
 
 litestream のレプリカを開始する。
@@ -105,8 +105,7 @@ gsutil ls gs://${TODREE_BUCKET}/litestream
 また、以下のコマンドで、一旦ローカルのファイルを消去したあとにリストアできる。
 
 ```shell
-rm ${TODREE_DB_PATH}*
-litestream restore -config litestream.yml ${TODREE_DB_PATH}
+make download-db
 ```
 
 これで正しく DB の中身が復元されていれば問題ない。
