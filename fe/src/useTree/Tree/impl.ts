@@ -24,7 +24,14 @@ export class Tree {
   constructor(root: RootNode) {
     this.root = root;
   }
-  selectNext() {}
+  selectNext() {
+    this.root.children[0].children.push({
+      id: 3,
+      content: "new",
+      open: false,
+      children: [],
+    });
+  }
   selectPrev() {}
 }
 

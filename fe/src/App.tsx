@@ -1,14 +1,30 @@
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import "./App.css";
 import ItemTree from "./components/ItemTree";
 import { loadTree } from "./api";
 import useTree from "./useTree";
+import { treeAtom } from "./atoms";
+import { useSetAtom } from "jotai";
+import Loadable from "./loadable";
 
 function App() {
-  const { setTree } = useTree();
+  const setTree = useSetAtom(treeAtom);
+  const [loading, setLoading] = useState<"before" | "loading" | "loaded">(
+    "before"
+  );
+
   useEffect(() => {
-    setTree(loadTree());
-  }, [setTree]);
+    if (loading !== "before") return;
+    setLoading("loading");
+    setTree(
+      new Loadable(
+        loadTree().then((t) => {
+          setLoading("loaded");
+          return t;
+        })
+      )
+    );
+  }, [loading, setTree]);
   return (
     <>
       <h1>todree</h1>
