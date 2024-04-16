@@ -4,7 +4,8 @@ from pydantic import BaseModel
 class ItemBase(BaseModel):
     content: str
     parent_id: int | None = None
-    weight: float
+    weight: float = 0.0
+    open: bool = False
 
 
 class ItemCreate(ItemBase):

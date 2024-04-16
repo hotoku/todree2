@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -14,7 +14,8 @@ class Item(Base):
                 index=True, autoincrement=True)
     content = Column(String, nullable=False)
     parent_id = Column(Integer, ForeignKey("items.id"))
-    weight = Column(Float, nullable=True)
+    weight = Column(Float, nullable=False, default=0.0)
+    open = Column(Boolean, nullable=False, default=False)
 
     parent = relationship("Item", back_populates="children", remote_side=id)
     children = relationship("Item", back_populates="parent")

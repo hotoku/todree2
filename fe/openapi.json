@@ -270,7 +270,13 @@
           },
           "weight": {
             "type": "number",
-            "title": "Weight"
+            "title": "Weight",
+            "default": 0.0
+          },
+          "open": {
+            "type": "boolean",
+            "title": "Open",
+            "default": false
           },
           "id": {
             "type": "integer",
@@ -280,7 +286,6 @@
         "type": "object",
         "required": [
           "content",
-          "weight",
           "id"
         ],
         "title": "Item"
@@ -304,13 +309,18 @@
           },
           "weight": {
             "type": "number",
-            "title": "Weight"
+            "title": "Weight",
+            "default": 0.0
+          },
+          "open": {
+            "type": "boolean",
+            "title": "Open",
+            "default": false
           }
         },
         "type": "object",
         "required": [
-          "content",
-          "weight"
+          "content"
         ],
         "title": "ItemCreate"
       },

@@ -51,8 +51,16 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
-      /** Weight */
-      weight: number;
+      /**
+       * Weight
+       * @default 0
+       */
+      weight?: number;
+      /**
+       * Open
+       * @default false
+       */
+      open?: boolean;
       /** Id */
       id: number;
     };
@@ -62,8 +70,16 @@ export interface components {
       content: string;
       /** Parent Id */
       parent_id?: number | null;
-      /** Weight */
-      weight: number;
+      /**
+       * Weight
+       * @default 0
+       */
+      weight?: number;
+      /**
+       * Open
+       * @default false
+       */
+      open?: boolean;
     };
     /** ValidationError */
     ValidationError: {
