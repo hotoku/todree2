@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import Loadable from "./loadable";
-import { Tree, createTree } from "./tree";
+import { Tree, createTree } from "./useTree/Tree/impl";
 
 export const treeAtom = atom<Loadable<Tree>>(
   new Loadable(

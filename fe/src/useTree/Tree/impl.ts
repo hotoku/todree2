@@ -24,6 +24,8 @@ export class Tree {
   constructor(root: RootNode) {
     this.root = root;
   }
+  selectNext() {}
+  selectPrev() {}
 }
 
 export function createTree(

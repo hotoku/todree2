@@ -1,5 +1,5 @@
 import { paths } from "./schema";
-import { Tree, createTree } from "./tree";
+import { Tree, createTree } from "./useTree/Tree/impl";
 
 async function getItems() {
   type SuccessResponse =
