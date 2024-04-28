@@ -1,11 +1,8 @@
 import { atom } from "jotai";
-import Loadable from "./loadable";
-import { Tree, createTree } from "./useTree/Tree/impl";
+import { RootNode } from "./model";
+import { Loadable } from "./loadable";
 
-export const treeAtom = atom<Loadable<Tree>>(
-  new Loadable(
-    new Promise<Tree>((resolve) => {
-      setTimeout(() => resolve(createTree([])), 1000);
-    })
-  )
-);
+export const selectedIdAtom = atom<number | null>(null);
+export const rootAtom = atom<Loadable<RootNode> | null>(null);
+export const editingAtom = atom<boolean>(false);
+export const openMapAtom = atom<Record<number, boolean>>({});
