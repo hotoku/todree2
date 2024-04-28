@@ -1,8 +1,6 @@
-export type Item = {
-  id: number;
-  content: string;
-  parent: number | null;
-};
+import { components, paths } from "./schema";
+
+export type Item = components["schemas"]["Item"];
 
 const db: {
   [key: number]: { id: number; content: string; parent: number | null };
@@ -13,12 +11,13 @@ const db: {
   4: { id: 4, content: "four", parent: 2 },
 };
 
-export function loadRoot(): Promise<Item[]> {
-  const loadingItems = sleep(1).then(() => {
-    const items = Object.values(db).filter((item) => item.parent === null);
-    return items;
-  });
-  return loadingItems;
+export async function loadRoot(): Promise<Item[]> {
+  type Response200 =
+    paths["/api/items"]["get"]["responses"]["200"]["content"]["application/json"];
+
+  const res = await fetch("/api/items");
+  const data: Response200 = await res.json();
+  return data;
 }
 
 export function sleep(n: number): Promise<void> {
