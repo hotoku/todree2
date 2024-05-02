@@ -32,18 +32,16 @@ export async function loadChildren(parent: number): Promise<Item[]> {
   return data;
 }
 
-export function saveContent(id: number, v: string): Promise<string> {
-  const updating = new Promise((resolve) => setTimeout(resolve, 1000)).then(
-    () => {
-      const item = Object.values(db).find((item) => item.id === id);
-      if (item === undefined) {
-        throw new Error("Item not found");
-      }
-      item.content = v;
-      return v;
-    }
-  );
-  return updating;
+export async function saveContent(id: number, v: string): Promise<string> {
+  type Response200 =
+    paths["/api/items/{item_id}"]["put"]["responses"]["200"]["content"]["application/json"];
+  const res = await fetch(`/api/items/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: v }),
+  });
+  const data: Response200 = await res.json();
+  return data.content;
 }
 
 export function addItem(parentId: number | null): Promise<Item> {
