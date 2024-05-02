@@ -14,7 +14,7 @@ import {
 } from "./model";
 import { editingAtom, openMapAtom, rootAtom, selectedIdAtom } from "./atoms";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Loadable, LP } from "./loadable";
+import { Loadable, LP, LV } from "./loadable";
 import { sleep } from "./api";
 
 import "./App.css";
@@ -265,11 +265,7 @@ export function App(): JSX.Element {
   useEffect(() => {
     setSelected(null);
     setOpenMap({});
-    sleep(1).then(() => {
-      const root = getRoot();
-      const lRoot = LP(root);
-      setRoot(lRoot);
-    });
+    setRoot(LP(getRoot()));
   }, [setOpenMap, setRoot, setSelected]);
 
   return (
