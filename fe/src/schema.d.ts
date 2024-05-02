@@ -26,6 +26,13 @@ export interface paths {
     /** Create Item */
     post: operations["create_item_api_items_post"];
   };
+  "/api/items/{item_id}/children": {
+    /**
+     * Get Children
+     * @description Return all children of the item.
+     */
+    get: operations["get_children_api_items__item_id__children_get"];
+  };
   "/{path}": {
     /** Index */
     get: operations["index__path__get"];
@@ -212,6 +219,31 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["Item"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Children
+   * @description Return all children of the item.
+   */
+  get_children_api_items__item_id__children_get: {
+    parameters: {
+      path: {
+        item_id: number;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Item"][];
         };
       };
       /** @description Validation Error */

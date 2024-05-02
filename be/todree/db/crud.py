@@ -37,3 +37,7 @@ def delete_item(db: Session, item_id: int) -> models.Item | None:
     db.delete(db_item)
     db.commit()
     return db_item
+
+
+def read_children(db: Session, item_id: int) -> list[models.Item]:
+    return db.query(models.Item).filter(models.Item.parent_id == item_id).all()

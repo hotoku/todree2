@@ -1,9 +1,6 @@
 {
   "openapi": "3.1.0",
-  "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
-  },
+  "info": { "title": "FastAPI", "version": "0.1.0" },
   "paths": {
     "/api/info": {
       "get": {
@@ -12,11 +9,7 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -30,10 +23,7 @@
             "name": "item_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Item Id"
-            }
+            "schema": { "type": "integer", "title": "Item Id" }
           }
         ],
         "responses": {
@@ -41,9 +31,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Item"
-                }
+                "schema": { "$ref": "#/components/schemas/Item" }
               }
             }
           },
@@ -51,9 +39,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -67,10 +53,7 @@
             "name": "item_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Item Id"
-            }
+            "schema": { "type": "integer", "title": "Item Id" }
           }
         ],
         "responses": {
@@ -78,9 +61,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Item"
-                }
+                "schema": { "$ref": "#/components/schemas/Item" }
               }
             }
           },
@@ -88,9 +69,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -104,19 +83,14 @@
             "name": "item_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Item Id"
-            }
+            "schema": { "type": "integer", "title": "Item Id" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemCreate"
-              }
+              "schema": { "$ref": "#/components/schemas/ItemCreate" }
             }
           }
         },
@@ -125,9 +99,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Item"
-                }
+                "schema": { "$ref": "#/components/schemas/Item" }
               }
             }
           },
@@ -135,9 +107,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -155,9 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Item"
-                  },
+                  "items": { "$ref": "#/components/schemas/Item" },
                   "type": "array",
                   "title": "Response Get Items Api Items Get"
                 }
@@ -172,9 +140,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemCreate"
-              }
+              "schema": { "$ref": "#/components/schemas/ItemCreate" }
             }
           },
           "required": true
@@ -184,8 +150,43 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/Item" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/items/{item_id}/children": {
+      "get": {
+        "summary": "Get Children",
+        "description": "Return all children of the item.",
+        "operationId": "get_children_api_items__item_id__children_get",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Item Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Item"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Item" },
+                  "title": "Response Get Children Api Items  Item Id  Children Get"
                 }
               }
             }
@@ -194,9 +195,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -210,11 +209,7 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -226,11 +221,7 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -241,9 +232,7 @@
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
+            "items": { "$ref": "#/components/schemas/ValidationError" },
             "type": "array",
             "title": "Detail"
           }
@@ -253,108 +242,45 @@
       },
       "Item": {
         "properties": {
-          "content": {
-            "type": "string",
-            "title": "Content"
-          },
+          "content": { "type": "string", "title": "Content" },
           "parent_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "Parent Id"
           },
-          "weight": {
-            "type": "number",
-            "title": "Weight",
-            "default": 0.0
-          },
-          "open": {
-            "type": "boolean",
-            "title": "Open",
-            "default": false
-          },
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          }
+          "weight": { "type": "number", "title": "Weight", "default": 0.0 },
+          "open": { "type": "boolean", "title": "Open", "default": false },
+          "id": { "type": "integer", "title": "Id" }
         },
         "type": "object",
-        "required": [
-          "content",
-          "id"
-        ],
+        "required": ["content", "id"],
         "title": "Item"
       },
       "ItemCreate": {
         "properties": {
-          "content": {
-            "type": "string",
-            "title": "Content"
-          },
+          "content": { "type": "string", "title": "Content" },
           "parent_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "Parent Id"
           },
-          "weight": {
-            "type": "number",
-            "title": "Weight",
-            "default": 0.0
-          },
-          "open": {
-            "type": "boolean",
-            "title": "Open",
-            "default": false
-          }
+          "weight": { "type": "number", "title": "Weight", "default": 0.0 },
+          "open": { "type": "boolean", "title": "Open", "default": false }
         },
         "type": "object",
-        "required": [
-          "content"
-        ],
+        "required": ["content"],
         "title": "ItemCreate"
       },
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
             "type": "array",
             "title": "Location"
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          }
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
         },
         "type": "object",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
+        "required": ["loc", "msg", "type"],
         "title": "ValidationError"
       }
     }

@@ -74,6 +74,12 @@ def get_items(session: Session = Depends(get_db)):
     return crud.read_items(session)
 
 
+@app.get("/api/items/{item_id}/children", response_model=list[Item])
+def get_children(item_id: int, session: Session = Depends(get_db)):
+    """Return all children of the item."""
+    return crud.read_children(session, item_id)
+
+
 app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
 
 
