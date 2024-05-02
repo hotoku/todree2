@@ -14,8 +14,7 @@ import {
 } from "./model";
 import { editingAtom, openMapAtom, rootAtom, selectedIdAtom } from "./atoms";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Loadable, LP, LV } from "./loadable";
-import { sleep } from "./api";
+import { Loadable, LP } from "./loadable";
 
 import "./App.css";
 import { useUpdate } from "./hooks";
