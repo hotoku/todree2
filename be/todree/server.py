@@ -60,18 +60,18 @@ def create_item(item: ItemCreate, session: Session = Depends(get_db)):
     return crud.create_item(session, item)
 
 
-@app.get("/api/items", response_model=list[Item])
-def get_items(session: Session = Depends(get_db)):
-    """Return all items that have no parent."""
-    return crud.read_items(session)
-
-
 @app.put("/api/items/{item_id}", response_model=Item)
 def update_item(item_id: int, item: ItemCreate, session: Session = Depends(get_db)):
     ret = crud.update_item(session, item_id, item)
     if ret is None:
         raise HTTPException(status_code=404, detail="Item not found")
     return ret
+
+
+@app.get("/api/items", response_model=list[Item])
+def get_items(session: Session = Depends(get_db)):
+    """Return all items that have no parent."""
+    return crud.read_items(session)
 
 
 app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
