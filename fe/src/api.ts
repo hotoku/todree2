@@ -24,15 +24,12 @@ export function sleep(n: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, n * 1000));
 }
 
-export function loadChildren(parent: number | null): Promise<Item[]> {
-  const loadingItems = new Promise((resolve) => setTimeout(resolve, 1000)).then(
-    () => {
-      const items = Object.values(db).filter((item) => item.parent === parent);
-      return items;
-    }
-  );
-
-  return loadingItems;
+export async function loadChildren(parent: number): Promise<Item[]> {
+  type Response200 =
+    paths["/api/items/{item_id}/children"]["get"]["responses"]["200"]["content"]["application/json"];
+  const res = await fetch(`/api/items/${parent}/children`);
+  const data: Response200 = await res.json();
+  return data;
 }
 
 export function saveContent(id: number, v: string): Promise<string> {
