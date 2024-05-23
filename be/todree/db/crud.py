@@ -17,7 +17,7 @@ def create_item(db: Session, item: schemas.ItemCreate) -> models.Item:
 
 
 def read_items(db: Session) -> list[models.Item]:
-    return db.query(models.Item).filter(models.Item.parent_id.is_(None)).all()
+    return db.query(models.Item).all()
 
 
 def update_item(db: Session, item_id: int, item: schemas.ItemCreate) -> models.Item | None:

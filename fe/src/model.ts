@@ -48,22 +48,44 @@ function item2node(item: {
 }
 
 export async function getRoot(): Promise<RootNode> {
-  const items = await loadChildrenOfRoot();
+  const items = (await loadChildrenOfRoot()).sort((a, b) => a.id - b.id);
   const ret: RootNode = {
     type: "root",
     id: null,
-    children: { type: "beforeLoad" },
+    children: { type: "loadStarted", loadable: LV([]) },
   };
-  const children: Loadable<ValueNode>[] = [];
+  const id2node: Record<number, ValueNode> = {};
+  const id2children: Record<number, Loadable<ValueNode>[]> = {};
+  const rootChildren: Loadable<ValueNode>[] = [];
+
   for (const item of items) {
-    const valueNode: ValueNode = item2node({
-      id: item.id,
-      content: item.content,
-      parent: ret,
-    });
-    children.push(LV(valueNode));
+    const node: ValueNode = {
+      ...item2node({ ...item, parent: ret }),
+      children: { type: "loadStarted", loadable: LV([]) },
+    };
+    id2node[item.id] = node;
+    if (!item.parent_id) {
+      rootChildren.push(LV(node));
+      continue;
+    }
+    if (!(item.parent_id in id2children)) {
+      id2children[item.parent_id] = [];
+    }
+    id2children[item.parent_id].push(LV(node));
   }
-  ret.children = { type: "loadStarted", loadable: LV(children) };
+  for (const [id_, children] of Object.entries(id2children)) {
+    const id = Number(id_);
+    id2node[id].children = {
+      type: "loadStarted",
+      loadable: LV(children),
+    };
+  }
+  for (const item of items) {
+    if (item.parent_id && item.parent_id in id2node) {
+      id2node[item.id].parent = id2node[item.parent_id];
+    }
+  }
+  ret.children = { type: "loadStarted", loadable: LV(rootChildren) };
   return ret;
 }
 

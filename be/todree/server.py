@@ -70,7 +70,7 @@ def update_item(item_id: int, item: ItemCreate, session: Session = Depends(get_d
 
 @app.get("/api/items", response_model=list[Item])
 def get_items(session: Session = Depends(get_db)):
-    """Return all items that have no parent."""
+    """Return all items"""
     return crud.read_items(session)
 
 
