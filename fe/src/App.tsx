@@ -258,7 +258,7 @@ function Root(): JSX.Element {
 
 export function App(): JSX.Element {
   const [root, setRoot] = useAtom(rootAtom);
-  const setSelected = useSetAtom(selectedIdAtom);
+  const [selected, setSelected] = useAtom(selectedIdAtom);
   const setOpenMap = useSetAtom(openMapAtom);
 
   useEffect(() => {
@@ -269,7 +269,9 @@ export function App(): JSX.Element {
 
   return (
     <>
-      <h1>todree</h1>
+      <div style={{ display: "flex" }}>
+        <h1>todree</h1> <p>{selected ?? "null"}</p>
+      </div>
       {root ? (
         <Suspense fallback={<div>loading root</div>}>
           <Root />
