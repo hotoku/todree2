@@ -2,7 +2,7 @@ import { components, paths } from "./schema";
 
 export type Item = components["schemas"]["Item"];
 
-export async function loadRoot(): Promise<Item[]> {
+export async function loadChildrenOfRoot(): Promise<Item[]> {
   type Response200 =
     paths["/api/items"]["get"]["responses"]["200"]["content"]["application/json"];
 
@@ -14,7 +14,10 @@ export async function loadRoot(): Promise<Item[]> {
   return data;
 }
 
-export async function loadChildren(parent: number): Promise<Item[]> {
+export async function loadChildren(parent: number | null): Promise<Item[]> {
+  if (parent === null) {
+    return loadChildrenOfRoot();
+  }
   type Response200 =
     paths["/api/items/{item_id}/children"]["get"]["responses"]["200"]["content"]["application/json"];
   const res = await fetch(`/api/items/${parent}/children`);

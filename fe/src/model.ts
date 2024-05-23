@@ -1,5 +1,5 @@
 import {
-  loadRoot,
+  loadChildrenOfRoot,
   loadChildren as loadChildrenApi,
   saveContent as saveContentApi,
   addItem,
@@ -48,7 +48,7 @@ function item2node(item: {
 }
 
 export async function getRoot(): Promise<RootNode> {
-  const items = await loadRoot();
+  const items = await loadChildrenOfRoot();
   const ret: RootNode = {
     type: "root",
     id: null,
