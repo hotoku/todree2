@@ -170,7 +170,10 @@ function Root(): JSX.Element {
               const ret = removeNode(root, selected, openMap);
               setSelected(null);
               resolve(ret);
-            }).then((v) => setSelected(v));
+            }).then((v) => {
+              setSelected(v);
+              setRoot(LP(getRoot()));
+            });
           }
           break;
         case "j":
